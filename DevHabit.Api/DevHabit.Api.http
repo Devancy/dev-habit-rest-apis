@@ -1,6 +1,12 @@
-@Api_HostAddress = http://localhost:8080
+@Api_HostAddress = https://localhost:5001
 
 GET {{Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+GET {{Api_HostAddress}}/habits/
+Accept: application/json
+
+###
+GET {{Api_HostAddress}}/habits/h_01962fcb-87d3-715a-9c4f-6a0a3c6817a0
+Accept: application/xml
