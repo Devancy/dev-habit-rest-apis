@@ -1,5 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+using System;
 
 namespace DevHabit.Api.Controllers;
 
