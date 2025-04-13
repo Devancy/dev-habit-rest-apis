@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  DOTNET_VERSION: "9.x"
+  DOTNET_VERSION: "9.0.0"
   SOLUTION_FILE: "DevHabit.sln"
 
 jobs:
@@ -26,6 +26,9 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           
+      - name: Verify .NET SDK version
+        run: dotnet --version
+
       - name: Restore dependencies
         run: dotnet restore ${{ env.SOLUTION_FILE }}
 
