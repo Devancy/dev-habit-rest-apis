@@ -3,6 +3,7 @@ using DevHabit.Api.Database.Entities;
 using DevHabit.Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,34 +19,7 @@ public class HabitsController(ApplicationDbContext dbContext) : ControllerBase
     {
         List<HabitDto> habits = await dbContext
         .Habits
-        .Select(h => new HabitDto
-        {
-            Id = h.Id,
-            Name = h.Name,
-            Description = h.Description,
-            HabitType = h.HabitType,
-            Frequency = new FrequencyDto
-            {
-                Type = h.Frequency.Type,
-                TimePerPeriod = h.Frequency.TimePerPeriod
-            },
-            Target = new TargetDto
-            {
-                Value = h.Target.Value,
-                Unit = h.Target.Unit
-            },
-            Status = h.Status,
-            IsArchived = h.IsArchived,
-            EndDate = h.EndDate,
-            MileStone = h.MileStone == null ? null : new MileStoneDto
-            {
-                Target = h.MileStone.Target,
-                Current = h.MileStone.Current
-            },
-            CreatedAtUtc = h.CreatedAtUtc,
-            UpdatedAtUtc = h.UpdatedAtUtc,
-            LastCompletedAtUtc = h.LastCompletedAtUtc
-        })
+        .Select(HabitQueries.ProjectToDto())
         .ToListAsync();
 
         HabitsCollectionDto habitsCollection = new()
@@ -60,34 +34,7 @@ public class HabitsController(ApplicationDbContext dbContext) : ControllerBase
     {
         HabitDto? habit = await dbContext
             .Habits
-            .Select(h => new HabitDto
-            {
-                Id = h.Id,
-                Name = h.Name,
-                Description = h.Description,
-                HabitType = h.HabitType,
-                Frequency = new FrequencyDto
-                {
-                    Type = h.Frequency.Type,
-                    TimePerPeriod = h.Frequency.TimePerPeriod
-                },
-                Target = new TargetDto
-                {
-                    Value = h.Target.Value,
-                    Unit = h.Target.Unit
-                },
-                Status = h.Status,
-                IsArchived = h.IsArchived,
-                EndDate = h.EndDate,
-                MileStone = h.MileStone == null ? null : new MileStoneDto
-                {
-                    Target = h.MileStone.Target,
-                    Current = h.MileStone.Current
-                },
-                CreatedAtUtc = h.CreatedAtUtc,
-                UpdatedAtUtc = h.UpdatedAtUtc,
-                LastCompletedAtUtc = h.LastCompletedAtUtc
-            })
+            .Select(HabitQueries.ProjectToDto())
             .FirstOrDefaultAsync(h => h.Id == id);
 
         if (habit == null)
@@ -96,5 +43,23 @@ public class HabitsController(ApplicationDbContext dbContext) : ControllerBase
         }
 
         return Ok(habit);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<HabitDto>> CreateHabit([FromBody] CreateHabitDto? createHabitDto)
+    {
+        if (createHabitDto == null)
+        {
+            return BadRequest("Habit data is required.");
+        }
+
+        Habit habit = createHabitDto.ToEntity();
+
+        dbContext.Habits.Add(habit);
+        await dbContext.SaveChangesAsync();
+
+        HabitDto habitDto = habit.ToDto();
+
+        return CreatedAtAction(nameof(GetHabit), new { id = habitDto.Id }, habitDto);
     }
 }
