@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "docker-run: debug",
+            "type": "shell",
+            "command": "docker-compose",
+            "args": [
+                "-f",
+                "docker-compose.override.yml",
+                "-f",
+                "docker-compose.yml",
+                "up",
+                "--build"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
