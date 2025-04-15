@@ -6,9 +6,8 @@ namespace DevHabit.Api.DTOs;
 
 internal static class HabitQueries
 {
-    public static Expression<Func<Habit, HabitDto>> ProjectToDto()
-    {
-        return habit => new HabitDto
+    public static Expression<Func<Habit, HabitDto>> ProjectToDto() =>
+        habit => new HabitDto
         {
             Id = habit.Id,
             Name = habit.Name,
@@ -36,5 +35,4 @@ internal static class HabitQueries
             UpdatedAtUtc = habit.UpdatedAtUtc,
             LastCompletedAtUtc = habit.LastCompletedAtUtc
         };
-    }
 }

@@ -23,7 +23,7 @@ public static class DatabaseExtensions
             await using ApplicationDbContext dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             
             // Check if there are pending migrations before applying them
-            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+            IEnumerable<string> pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
             if (pendingMigrations.Any())
             {
                 app.Logger.LogInformation("Applying {Count} pending migrations: {Migrations}", 

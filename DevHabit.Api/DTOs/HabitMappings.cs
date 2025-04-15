@@ -6,9 +6,8 @@ namespace DevHabit.Api.DTOs;
 
 internal static class HabitMappings
 {
-    public static Habit ToEntity(this CreateHabitDto dto)
-    {
-        return new Habit
+    public static Habit ToEntity(this CreateHabitDto dto) =>
+        new()
         {
             Id = $"h_{Guid.CreateVersion7()}",
             Name = dto.Name,
@@ -36,11 +35,9 @@ internal static class HabitMappings
             // UpdatedAtUtc = null,
             // LastCompletedAtUtc = null
         };
-    }
 
-    public static HabitDto ToDto(this Habit habit)
-    {
-        return new HabitDto
+    public static HabitDto ToDto(this Habit habit) =>
+        new()
         {
             Id = habit.Id,
             Name = habit.Name,
@@ -68,5 +65,4 @@ internal static class HabitMappings
             UpdatedAtUtc = habit.UpdatedAtUtc,
             LastCompletedAtUtc = habit.LastCompletedAtUtc
         };
-    }
 }

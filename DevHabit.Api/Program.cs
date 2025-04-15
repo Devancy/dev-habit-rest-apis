@@ -13,14 +13,11 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder? builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options =>
-{
-    options.RespectBrowserAcceptHeader = true;
-}).AddXmlSerializerFormatters();
+builder.Services.AddControllers(options => options.RespectBrowserAcceptHeader = true).AddXmlSerializerFormatters();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options
@@ -29,10 +26,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             npgsqlOptions => npgsqlOptions
                 .MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Application))
         .UseSnakeCaseNamingConvention()
-        .UseAsyncSeeding(async (context, _, _) =>
-        {
-            await context.SeedDataAsync();
-        }));
+        .UseAsyncSeeding(async (context, _, _) => await context.SeedDataAsync()));
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(r => r.AddService(builder.Environment.ApplicationName))
@@ -52,7 +46,7 @@ builder.Logging.AddOpenTelemetry(options =>
     options.IncludeFormattedMessage = true;
 });
 
-var app = builder.Build();
+WebApplication? app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
