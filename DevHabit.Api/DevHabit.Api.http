@@ -67,3 +67,7 @@ Accept-Language: en-US,en;q=0.5
     "value": "Reading newsletter for 20 minutes every morning"
   }
 ]
+
+###
+DELETE {{Api_HostAddress}}/habits/{{Habit_Id}}
+Accept: application/json

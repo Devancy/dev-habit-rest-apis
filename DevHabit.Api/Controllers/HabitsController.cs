@@ -113,4 +113,20 @@ public class HabitsController(ApplicationDbContext dbContext) : ControllerBase
         
         return NoContent();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteHabit(string id)
+    {
+        Habit? habit = await dbContext.Habits.FindAsync(id);
+
+        if (habit is null)
+        {
+            return NotFound();
+        }
+
+        dbContext.Habits.Remove(habit);
+        await dbContext.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
