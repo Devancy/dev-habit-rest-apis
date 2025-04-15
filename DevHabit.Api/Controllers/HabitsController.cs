@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace DevHabit.Api.Controllers;
 
@@ -85,3 +86,31 @@ public class HabitsController(ApplicationDbContext dbContext) : ControllerBase
 
         return Ok(habitDto);
     }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> PathHabit(string id, [FromBody] JsonPatchDocument<HabitDto> patchDoc)
+    {
+        Habit? habit = await dbContext.Habits.FindAsync(id);
+        if (habit is null)
+        {
+            return NotFound();
+        }
+        
+        HabitDto habitDto = habit.ToDto();
+        patchDoc.ApplyTo(habitDto, ModelState);
+        
+        if (!TryValidateModel(habitDto))
+        {
+            return ValidationProblem(ModelState);
+        }
+        
+        // Path the Name and Description only
+        habit.Name = habitDto.Name;
+        habit.Description = habitDto.Description;
+        habit.UpdatedAtUtc = DateTime.UtcNow;
+        
+        await dbContext.SaveChangesAsync();
+        
+        return NoContent();
+    }
+}
