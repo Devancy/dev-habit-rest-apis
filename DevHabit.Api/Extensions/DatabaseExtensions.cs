@@ -47,6 +47,12 @@ public static class DatabaseExtensions
     {
         ArgumentNullException.ThrowIfNull(dbContext);
 
+        await GenerateHabits(dbContext);
+        await GenerateTags(dbContext);
+    }
+
+    private static async Task GenerateHabits(DbContext dbContext)
+    {
         bool containsData = await dbContext.Set<Habit>().AnyAsync();
         if (!containsData)
         {
@@ -153,6 +159,30 @@ public static class DatabaseExtensions
             }
 
             await dbContext.Set<Habit>().AddRangeAsync(sampleHabits);
+            await dbContext.SaveChangesAsync();
+        }
+    }
+
+    private static async Task GenerateTags(DbContext dbContext)
+    {
+        bool containsTags = await dbContext.Set<Tag>().AnyAsync();
+        if (!containsTags)
+        {
+            List<Tag> sampleTags =
+            [
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Health", Description = "Habits related to physical and mental well-being." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Productivity", Description = "Habits that improve efficiency and output." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Fitness", Description = "Habits focused on exercise and staying fit." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Learning", Description = "Habits for acquiring new knowledge or skills." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Mindfulness", Description = "Habits that promote mindfulness and meditation." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Nutrition", Description = "Habits related to healthy eating and diet." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Creativity", Description = "Habits that foster creative thinking and activities." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Finance", Description = "Habits for managing money and financial growth." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Social", Description = "Habits that improve social interactions and relationships." },
+                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Self-care", Description = "Habits for personal care and relaxation." }
+            ];
+
+            await dbContext.Set<Tag>().AddRangeAsync(sampleTags);
             await dbContext.SaveChangesAsync();
         }
     }
