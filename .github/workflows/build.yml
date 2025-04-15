@@ -1,7 +1,7 @@
 name: Build and Test
 
-on:
-  workflow_dispatch:
+on: # Triggers the workflow on push or manually
+  workflow_dispatch: {}
   push:
     branches:
       - main
@@ -19,15 +19,24 @@ jobs:
         working-directory: .
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4 # Check out the repository inside the runner
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v4 # Set up the .NET SDK
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_VERSION }} # Use the specified .NET version
+          include-prerelease: false
           
       - name: Verify .NET SDK version
         run: dotnet --version
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3 # Cache NuGet packages to speed up the workflow
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.sln') }} # Cache key based on OS and hash of project files
+          restore-keys: | # Fallback key to restore cache if the primary key is not found
+            ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
         run: dotnet restore ${{ env.SOLUTION_FILE }}
@@ -36,7 +45,7 @@ jobs:
         run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-build
+        run: dotnet test ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-build --verbosity normal
 
       - name: Publish artifacts
         run: dotnet publish ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-build
