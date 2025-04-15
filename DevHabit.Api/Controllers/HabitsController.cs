@@ -62,4 +62,26 @@ public class HabitsController(ApplicationDbContext dbContext) : ControllerBase
 
         return CreatedAtAction(nameof(GetHabit), new { id = habitDto.Id }, habitDto);
     }
-}
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<HabitDto>> UpdateHabit(string id, [FromBody] UpdateHabitDto? updateHabitDto)
+    {
+        if (updateHabitDto is null)
+        {
+            return BadRequest("Habit data is required.");
+        }
+
+        Habit? habit = await dbContext.Habits.FindAsync(id);
+
+        if (habit is null)
+        {
+            return NotFound();
+        }
+
+        habit.UpdateFromDto(updateHabitDto);
+        await dbContext.SaveChangesAsync();
+
+        HabitDto habitDto = habit.ToDto();
+
+        return Ok(habitDto);
+    }
