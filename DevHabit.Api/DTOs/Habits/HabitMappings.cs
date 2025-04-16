@@ -2,7 +2,7 @@ using DevHabit.Api.Database.Entities;
 using Microsoft.OpenApi.Expressions;
 using System;
 
-namespace DevHabit.Api.DTOs;
+namespace DevHabit.Api.DTOs.Habits;
 
 internal static class HabitMappings
 {

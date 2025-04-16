@@ -2,7 +2,7 @@ using DevHabit.Api.Database.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace DevHabit.Api.DTOs;
+namespace DevHabit.Api.DTOs.Habits;
 
 public sealed record HabitsCollectionDto
 {

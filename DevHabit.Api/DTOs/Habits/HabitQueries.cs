@@ -2,7 +2,7 @@ using DevHabit.Api.Database.Entities;
 using System;
 using System.Linq.Expressions;
 
-namespace DevHabit.Api.DTOs;
+namespace DevHabit.Api.DTOs.Habits;
 
 internal static class HabitQueries
 {

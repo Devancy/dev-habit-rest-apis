@@ -1,7 +1,7 @@
 using System;
 using DevHabit.Api.Database.Entities;
 
-namespace DevHabit.Api.DTOs;
+namespace DevHabit.Api.DTOs.Habits;
 
 public class UpdateHabitDto
 {

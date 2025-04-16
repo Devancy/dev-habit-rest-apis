@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DevHabit.Api.DTOs;
+namespace DevHabit.Api.DTOs.Tags;
 
 public sealed record TagsCollectionDto(List<TagDto> Data);
 

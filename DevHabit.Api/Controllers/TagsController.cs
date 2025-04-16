@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevHabit.Api.Database;
 using DevHabit.Api.Database.Entities;
-using DevHabit.Api.DTOs;
+using DevHabit.Api.DTOs.Tags;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

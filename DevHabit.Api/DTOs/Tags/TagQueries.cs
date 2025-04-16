@@ -2,7 +2,7 @@ using System;
 using System.Linq.Expressions;
 using DevHabit.Api.Database.Entities;
 
-namespace DevHabit.Api.DTOs;
+namespace DevHabit.Api.DTOs.Tags;
 
 internal static class TagQueries
 {
