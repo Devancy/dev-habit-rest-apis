@@ -176,11 +176,11 @@ public static class DatabaseExtensions
         {
             List<Tag> sampleTags =
             [
-                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Health", Description = "Habits related to physical and mental well-being." },
-                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Productivity", Description = "Habits that improve efficiency and output." },
-                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Fitness", Description = "Habits focused on exercise and staying fit." },
-                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Learning", Description = "Habits for acquiring new knowledge or skills." },
-                new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Mindfulness", Description = "Habits that promote mindfulness and meditation." },
+                new Tag { Id = "t_01963cef-1c1b-7e11-bf4a-1f00853ea5d6", Name = "Health", Description = "Habits related to physical and mental well-being." },
+                new Tag { Id = "t_01963cef-1c1b-7599-8c0d-465b0f70a7a9", Name = "Productivity", Description = "Habits that improve efficiency and output." },
+                new Tag { Id = "t_01963cef-1c1b-7a33-aecd-941ec116061a", Name = "Fitness", Description = "Habits focused on exercise and staying fit." },
+                new Tag { Id = "t_01963cef-1c1b-74bd-8359-a4f0b1037cae", Name = "Learning", Description = "Habits for acquiring new knowledge or skills." },
+                new Tag { Id = "t_01963cef-1c1b-7373-ab27-0bc7c04591a3", Name = "Mindfulness", Description = "Habits that promote mindfulness and meditation." },
                 new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Nutrition", Description = "Habits related to healthy eating and diet." },
                 new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Creativity", Description = "Habits that foster creative thinking and activities." },
                 new Tag { Id = $"t_{Guid.CreateVersion7()}", Name = "Finance", Description = "Habits for managing money and financial growth." },
