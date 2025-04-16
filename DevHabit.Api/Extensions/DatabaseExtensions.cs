@@ -1,8 +1,10 @@
 using DevHabit.Api.Database;
 using DevHabit.Api.Database.Entities;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -43,12 +45,16 @@ public static class DatabaseExtensions
         }
     }
 
-    public static async Task SeedDataAsync(this DbContext dbContext)
+    public static async Task SeedDataAsync(this DbContext dbContext, IWebHostEnvironment env)
     {
         ArgumentNullException.ThrowIfNull(dbContext);
+        ArgumentNullException.ThrowIfNull(env);
 
-        await GenerateHabits(dbContext);
-        await GenerateTags(dbContext);
+        if (env.IsDevelopment())
+        {
+            await GenerateHabits(dbContext);
+            await GenerateTags(dbContext);
+        }
     }
 
     private static async Task GenerateHabits(DbContext dbContext)

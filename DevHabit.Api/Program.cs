@@ -28,7 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
             npgsqlOptions => npgsqlOptions
                 .MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Application))
         .UseSnakeCaseNamingConvention()
-        .UseAsyncSeeding(async (context, _, _) => await context.SeedDataAsync()));
+        .UseAsyncSeeding(async (context, _, _) => await context.SeedDataAsync(builder.Environment)));
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(r => r.AddService(builder.Environment.ApplicationName))
